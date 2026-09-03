@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
@@ -7,6 +6,7 @@ use App\Http\Requests\GoogleLoginRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Services\GoogleTokenVerifier;
+use Illuminate\Http\Request;
 
 class GoogleAuthController extends Controller
 {
@@ -77,4 +77,18 @@ class GoogleAuthController extends Controller
             'user' => new UserResource($user->fresh()),
         ], $isNewUser ? 201 : 200);
     }
+
+    /**
+     * POST /api/v1/auth/logout
+     */
+    public function logout(Request $request)
+    {
+        $request->user()->currentAccessToken()->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Logged out successfully',
+        ]);
+    }
 }
+
