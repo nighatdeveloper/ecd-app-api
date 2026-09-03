@@ -17,6 +17,7 @@ Route::prefix('v1')->group(function () {
         Route::post('auth/logout', [GoogleAuthController::class, 'logout']);
 
         // Profile
+        Route::get('profile', [ProfileController::class, 'show']);
         Route::post('profile/update', [ProfileController::class, 'update']);
 
         // Children
